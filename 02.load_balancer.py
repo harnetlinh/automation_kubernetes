@@ -24,7 +24,8 @@ def create_instance(ec2, security_group_ids, type_ = 'NA', num_instances =1):
         return None
 
 def get_running_instances():
-    ec2_client = boto3.client("ec2", region_name="us-west-2")
+    ec2_client = boto3.client('ec2', region_name='ap-northeast-1')
+    
     reservations = ec2_client.describe_instances(Filters=[
         {
             "Name": "instance-state-name",
@@ -91,7 +92,7 @@ pprint.pprint(response)
 # =================== [5] Create Instances
 
 security_group_ids = [sg['GroupId'] for sg in security_groups]
-
+ec2 = boto3.client('ec2', region_name='ap-northeast-1')
 
 ins_master = create_instance(ec2, security_group_ids, type_  = 'master')
 ins_slave = create_instance(ec2, security_group_ids, type_  = 'slave', num_instances = 4)
