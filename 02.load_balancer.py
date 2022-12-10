@@ -41,7 +41,7 @@ def get_running_instances():
             print(f"{instance_id}, {instance_type}, {public_ip}, {private_ip}")
     return reservations
 
-
+"""
 # =================== [1] Get Security
 # find a security group that allows port 80 and tcp
 security_groups = ec2_get_security_group_list()
@@ -86,6 +86,9 @@ response = elb.create_load_balancer(
 )
 pprint.pprint(response)
 
+"""
+ec2 = boto3.resource('ec2', region_name='ap-northeast-1')
+ecs = boto3.client('ecs', region_name='ap-northeast-1')
 
 # =================== [5] Create Instances
 security_groups = ec2.describe_security_groups()
