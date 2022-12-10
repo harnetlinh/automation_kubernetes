@@ -50,3 +50,9 @@ def ec2_delete_security_group_rule(security_grp_id, security_grp_rule_id):
     ec2 = session.client('ec2')
     response = ec2.revoke_security_group_egress(GroupId=security_grp_id, SecurityGroupRuleIds=[security_grp_rule_id])
     return response
+
+def ec2_get_subnet_list():
+    session = init_aws_session()
+    ec2 = session.client('ec2')
+    response = ec2.describe_subnets()
+    return response['Subnets']
