@@ -42,6 +42,7 @@ def get_running_instances():
             print(f"{instance_id}, {instance_type}, {public_ip}, {private_ip}")
     return reservations
 
+sec_group = []
 
 # =================== [1] Get Security
 # find a security group that allows port 80 and tcp
@@ -52,6 +53,7 @@ for security_group in security_groups:
         if security_group_ip_perm['IpProtocol'] == 'tcp' and security_group_ip_perm['FromPort'] == 80:
             vpc_id = security_group['VpcId']
             security_group_id = security_group['GroupId']
+            sec_group.append(security_group)
             break
 """
 # =================== [2] Get Subnet
@@ -91,7 +93,7 @@ pprint.pprint(response)
 
 # =================== [5] Create Instances
 
-security_group_ids = [sg['GroupId'] for sg in security_groups]
+security_group_ids = [sg['GroupId'] for sg in sec_group]
 ec2 = boto3.resource('ec2', region_name='ap-northeast-1')
 
 ins_master = create_instance(ec2, security_group_ids, type_  = 'master')
