@@ -30,4 +30,5 @@ So when using ec2 t2.micro, the kubernetes can not run normally. We must change 
 ### 3.2. Automate deployment
 There are lot of bug in this step. It took so much time of us to research and solve problem. 
 
-### 3.3. 
+### 3.3. Authenticate problem
+We did meet an authenticate problem when trying to create instance

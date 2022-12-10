@@ -6,7 +6,7 @@ import pprint
 import random
 from libs import *
 
-
+session = init_aws_session()
 ec2 = boto3.resource('ec2', region_name='ap-northeast-1')
 ecs = boto3.client('ecs', region_name='ap-northeast-1')
 
@@ -23,7 +23,7 @@ for security_group in security_groups:
             break
 security_group_ids = [sg['GroupId']
                       for sg in sec_group]
-
+print(security_group_ids)
 
 def create_instance(ec2, security_group_ids, type_='NA', num_instances=1):
 

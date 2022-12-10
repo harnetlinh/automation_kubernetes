@@ -116,7 +116,7 @@ for reservation in reserve:
             targets_group.append(temp_)
         
 
-response = ecs.register_targets(
+response = ec2.register_targets(
     TargetGroupArn=target_group_arn,
     Targets= targets_group
 )
