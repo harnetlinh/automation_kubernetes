@@ -97,8 +97,8 @@ elb = session.client('elbv2')
 security_group_ids = [sg['GroupId'] for sg in sec_group]
 ec2 = boto3.resource('ec2', region_name='ap-northeast-1')
 
-ins_master = create_instance(ec2, security_group_ids, type_  = 'master')
-ins_slave = create_instance(ec2, security_group_ids, type_  = 'slave', num_instances = 4)
+# ins_master = create_instance(ec2, security_group_ids, type_  = 'master')
+# ins_slave = create_instance(ec2, security_group_ids, type_  = 'slave', num_instances = 4)
 
 reserve = get_running_instances()
 
