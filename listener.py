@@ -14,7 +14,7 @@ pprint.pprint(response['LoadBalancers']['AvailabilityZones'][0]['LoadBalancerArn
 response = elb.create_listener(
     DefaultActions=[
         {
-            'TargetGroupArn': target_group_arn,
+            'TargetGroupArn': ['arn:aws:elasticloadbalancing:ap-northeast-1:048452126007:targetgroup/unbiased-coder-target-group/e3469cbd536318fb'],
             'Type': 'forward',
         },
     ],
