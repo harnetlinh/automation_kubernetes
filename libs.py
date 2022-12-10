@@ -29,6 +29,12 @@ def ec2_delete_security_group(grp_id):
     ec2 = session.client('ec2')
     response = ec2.delete_security_group(GroupId=grp_id)
     return response
+    
+def elb_create_target_group(target_group_name, vpc_id):
+    session = init_aws_session()
+    elb = session.client('elbv2')
+    response = elb.create_target_group(Name=target_group_name, Protocol='HTTP', Port=80, VpcId=vpc_id)
+    return response
 
 def ec2_add_security_group_rule(grp_id, proto, start_port, end_port, ip_range):
     session = init_aws_session()

@@ -40,8 +40,9 @@ response = elb.create_load_balancer(
     IpAddressType='ipv4',
 )
 pprint.pprint(response)
+
 # response = ecs.register_targets(
-#     TargetGroupArn='string',
+#     TargetGroupArn=target_group_arn,
 #     Targets=[
 #         {
 #             'Id': 'string',
@@ -49,7 +50,7 @@ pprint.pprint(response)
 #             'AvailabilityZone': 'string'
 #         },
 #     ]
-# )
+)
 
 # response = client.register_targets(
 #     TargetGroupArn='arn:aws:elasticloadbalancing:us-west-2:123456789012:targetgroup/my-targets/73e2d6bc24d8a067',
