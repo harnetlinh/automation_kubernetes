@@ -1,5 +1,5 @@
 import pprint
-from boto3_helper import *
+from libs import *
 
 # find a security group that allows port 80 and tcp
 security_groups = ec2_get_security_group_list()
@@ -40,3 +40,25 @@ response = elb.create_load_balancer(
     IpAddressType='ipv4',
 )
 pprint.pprint(response)
+# response = ecs.register_targets(
+#     TargetGroupArn='string',
+#     Targets=[
+#         {
+#             'Id': 'string',
+#             'Port': 123,
+#             'AvailabilityZone': 'string'
+#         },
+#     ]
+# )
+
+# response = client.register_targets(
+#     TargetGroupArn='arn:aws:elasticloadbalancing:us-west-2:123456789012:targetgroup/my-targets/73e2d6bc24d8a067',
+#     Targets=[
+#         {
+#             'Id': 'i-80c8dd94',
+#         },
+#         {
+#             'Id': 'i-ceddcd4d',
+#         },
+#     ],
+# )
