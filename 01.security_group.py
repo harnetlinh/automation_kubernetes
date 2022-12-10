@@ -16,8 +16,12 @@ try:
     data = ec2.authorize_security_group_ingress(
         GroupId=security_group_id,
         IpPermissions=[
-            {'IpProtocol': '-1',
-             'IpRanges': [{'CidrIp': '0.0.0.0/0'}]}
+            {'IpProtocol': 'TCP',
+            'FromPort':80,
+            'ToPort':80,
+            'IpRanges': [{'CidrIp': '0.0.0.0/0'}],
+             
+             }
         ])
     print(f'Ingress Successfully Set {data}')
 except ClientError as e:

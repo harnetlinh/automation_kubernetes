@@ -5,7 +5,7 @@ def create_instance(ec2, security_group_ids, type_ = 'NA', num_instances =1):
 
     if type_ == 'master' or type_ == 'slave':
        
-       instance = ec2.create_instances(
+        instance = ec2.create_instances(
         #change ImageId to your ImageId
         ImageId = 'ami-0a5866d87afdfdfd3',
         MinCount = num_instances,
