@@ -10,9 +10,9 @@ from libs import *
 ec2 = boto3.resource('ec2', region_name='ap-northeast-1')
 ecs = boto3.client('ecs', region_name='ap-northeast-1')
 
-security_groups = ec2.describe_security_groups()
+security_groups = ec2_get_security_group_list()
 security_group_ids = [sg['GroupId']
-                      for sg in security_groups['SecurityGroups']]
+                      for sg in security_groups]
 
 
 def create_instance(ec2, security_group_ids, type_='NA', num_instances=1):
@@ -56,7 +56,7 @@ def create_nodegroup(ec2):
     )
     return nodegroup
 
-security_groups = ec2_get_security_group_list()
+
 ins_master = create_instance(ec2, security_group_ids, type_='master')
 ins_slave = create_instance(ec2, security_group_ids,  type_='slave', num_instances=4)
 
