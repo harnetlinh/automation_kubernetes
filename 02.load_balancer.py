@@ -87,11 +87,10 @@ response = elb.create_load_balancer(
 pprint.pprint(response)
 
 """
-ec2 = boto3.client('ecs', region_name='ap-northeast-1')
 
 # =================== [5] Create Instances
 security_groups = ec2.describe_security_groups()
-security_group_ids = [sg['GroupId'] for sg in security_groups['SecurityGroups']]
+security_group_ids = [sg['GroupId'] for sg in security_groups]
 
 
 ins_master = create_instance(ec2, security_group_ids, type_  = 'master')
