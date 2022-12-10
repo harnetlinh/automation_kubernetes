@@ -55,7 +55,7 @@ for security_group in security_groups:
             security_group_id = security_group['GroupId']
             sec_group.append(security_group)
             break
-"""
+
 # =================== [2] Get Subnet
 # find subnet and VPC ID associated with security group
 subnet_list = ec2_get_subnet_list()
@@ -89,11 +89,11 @@ response = elb.create_load_balancer(
 )
 pprint.pprint(response)
 
-"""
-session = init_aws_session()
-elb = session.client('elbv2')
-# =================== [5] Create Instances
 
+# session = init_aws_session()
+# elb = session.client('elbv2')
+
+# =================== [5] Create Instances
 security_group_ids = [sg['GroupId'] for sg in sec_group]
 ec2 = boto3.resource('ec2', region_name='ap-northeast-1')
 
@@ -103,11 +103,6 @@ ec2 = boto3.resource('ec2', region_name='ap-northeast-1')
 reserve = get_running_instances()
 
 # =================== [6] Create Target list
-# =================== [3] Create Target
-# Create a target group
-target_group = elb_create_target_group('unbiased-coder-target-group', vpc_id)
-target_group_arn = target_group['TargetGroups'][0]['TargetGroupArn']
-
 targets_group = []
 for reservation in reserve:
         for instance in reservation["Instances"]:
