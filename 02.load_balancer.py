@@ -89,7 +89,7 @@ pprint.pprint(response)
 """
 
 # =================== [5] Create Instances
-security_groups = ec2.describe_security_groups()
+
 security_group_ids = [sg['GroupId'] for sg in security_groups]
 
 
