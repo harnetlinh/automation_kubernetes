@@ -1,6 +1,10 @@
-apt-get update -y
-sleep 30
+#!/bin/bash
 
+
+apt-get update -y
+# sleep 30
+
+#
 hostnamectl set-hostname master
 
 echo "slaveIP slave" >> /etc/hosts
