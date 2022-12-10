@@ -90,7 +90,8 @@ response = elb.create_load_balancer(
 pprint.pprint(response)
 
 """
-
+session = init_aws_session()
+elb = session.client('elbv2')
 # =================== [5] Create Instances
 
 security_group_ids = [sg['GroupId'] for sg in sec_group]
@@ -116,7 +117,7 @@ for reservation in reserve:
             targets_group.append(temp_)
         
 
-response = ec2.register_targets(
+response = elb.register_targets(
     TargetGroupArn=target_group_arn,
     Targets= targets_group
 )
