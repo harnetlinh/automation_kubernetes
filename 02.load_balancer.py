@@ -87,8 +87,7 @@ response = elb.create_load_balancer(
 pprint.pprint(response)
 
 """
-ec2 = boto3.resource('ec2', region_name='ap-northeast-1')
-ecs = boto3.client('ecs', region_name='ap-northeast-1')
+ec2 = boto3.client('ecs', region_name='ap-northeast-1')
 
 # =================== [5] Create Instances
 security_groups = ec2.describe_security_groups()
