@@ -9,23 +9,33 @@ import random
 ec2 = boto3.resource('ec2', region_name='ap-northeast-1')
 ecs = boto3.client('ecs', region_name='ap-northeast-1')
 
-def create_instance(ec2):
-    instance = ec2.create_instances(
+security_groups = ec2.describe_security_groups()
+security_group_ids = [sg['GroupId'] for sg in security_groups['SecurityGroups']]
+
+
+
+def create_instance(ec2, security_group_ids, type_ = 'NA', num_instances =1):
+
+    if type_ == 'master' or type_ == 'slave':
+       
+       instance = ec2.create_instances(
         #change ImageId to your ImageId
         ImageId = 'ami-0a5866d87afdfdfd3',
-        MinCount = 1,
-        MaxCount = 1,
+        MinCount = num_instances,
+        MaxCount = num_instances,
         InstanceType = 't2.medium',
         #change Keyname to your KeyName
         KeyName = 'awspem',
         #change SecurityGroupIds to your SecurityGroupIds
-        SecurityGroupIds=[
-            'sg-0ce276a63f5c59f0b',
-        ],
-    )
-    instance[0].wait_until_running()           
-    instance[0].reload()
-    return instance
+        SecurityGroupIds=security_group_ids,
+        )
+        # instance[0].wait_until_running()           
+        # instance[0].reload()
+        return instance
+
+    else:
+        return None
+    
 
 def create_cluster(ecs):
     random_num = random.randint(1, 100)
@@ -43,6 +53,10 @@ def create_nodegroup(ec2):
         tags = [{'key': 'eks_boto', 'value': 'eks_boto'}],
     )
     return nodegroup
+
+
+ins_master = create_instance(ec2, security_group_ids, type_  = 'master')
+ins_slave = create_instance(ec2, security_group_ids, type_  = 'slave', num_instances = 4)
 
 ecs = create_cluster(ecs)
 print(ecs)
