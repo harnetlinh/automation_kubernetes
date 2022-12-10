@@ -28,5 +28,6 @@ At first, while starting the project, because we dont read the document carefull
 So when using ec2 t2.micro, the kubernetes can not run normally. We must change it to t2.medium
 
 ### 3.2. Automate deployment
+There are lot of bug in this step. It took so much time of us to research and solve problem. 
 
 ### 3.3. 

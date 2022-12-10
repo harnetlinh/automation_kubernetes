@@ -92,7 +92,7 @@ pprint.pprint(response)
 # =================== [5] Create Instances
 
 security_group_ids = [sg['GroupId'] for sg in security_groups]
-ec2 = boto3.client('ec2', region_name='ap-northeast-1')
+ec2 = boto3.resource('ec2', region_name='ap-northeast-1')
 
 ins_master = create_instance(ec2, security_group_ids, type_  = 'master')
 ins_slave = create_instance(ec2, security_group_ids, type_  = 'slave', num_instances = 4)
