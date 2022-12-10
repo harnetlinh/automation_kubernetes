@@ -118,15 +118,19 @@ response = elb.register_targets(
 )
 
 print(response)
+response = elb.describe_load_balancers()
+pprint.pprint(response['LoadBalancers']['AvailabilityZones'][0]['LoadBalancerArn'])
 
-# response = client.register_targets(
-#     TargetGroupArn='arn:aws:elasticloadbalancing:us-west-2:123456789012:targetgroup/my-targets/73e2d6bc24d8a067',
-#     Targets=[
-#         {
-#             'Id': 'i-80c8dd94',
-#         },
-#         {
-#             'Id': 'i-ceddcd4d',
-#         },
-#     ],
-# )
+response = elb.create_listener(
+    DefaultActions=[
+        {
+            'TargetGroupArn': target_group_arn,
+            'Type': 'forward',
+        },
+    ],
+    LoadBalancerArn= response['LoadBalancers']['AvailabilityZones'][0]['LoadBalancerArn']
+    Port=80,
+    Protocol='HTTP',
+)
+
+print(response)
