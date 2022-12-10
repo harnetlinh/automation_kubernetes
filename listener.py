@@ -20,7 +20,7 @@ response = elb.create_listener(
     ],
     LoadBalancerArn= response['LoadBalancers']['AvailabilityZones'][0]['LoadBalancerArn']
     Port=80,
-    Protocol='HTTP',
+    Protocol='HTTP'
 )
 
 print(response)
