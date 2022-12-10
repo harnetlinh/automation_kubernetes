@@ -41,7 +41,7 @@ def get_running_instances():
             print(f"{instance_id}, {instance_type}, {public_ip}, {private_ip}")
     return reservations
 
-"""
+
 # =================== [1] Get Security
 # find a security group that allows port 80 and tcp
 security_groups = ec2_get_security_group_list()
@@ -52,7 +52,7 @@ for security_group in security_groups:
             vpc_id = security_group['VpcId']
             security_group_id = security_group['GroupId']
             break
-
+"""
 # =================== [2] Get Subnet
 # find subnet and VPC ID associated with security group
 subnet_list = ec2_get_subnet_list()
@@ -101,6 +101,11 @@ ins_slave = create_instance(ec2, security_group_ids, type_  = 'slave', num_insta
 reserve = get_running_instances()
 
 # =================== [6] Create Target list
+# =================== [3] Create Target
+# Create a target group
+target_group = elb_create_target_group('unbiased-coder-target-group', vpc_id)
+target_group_arn = target_group['TargetGroups'][0]['TargetGroupArn']
+
 targets_group = []
 for reservation in reserve:
         for instance in reservation["Instances"]:
