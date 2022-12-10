@@ -14,7 +14,7 @@ machines allocated on Amazon AWS.
 ## 2. Installation and Usage
 - For running, you must create aws account and create a pem key for paramiko ssh access
 - [user], [access key ID] and [Secret access key] are required for boto3
-- To run the project, please run file ```create_instance.py```
+- To run the project, please run file by the number indexed
 
 
 ## 3. Problems
@@ -31,4 +31,11 @@ So when using ec2 t2.micro, the kubernetes can not run normally. We must change 
 There are lot of bug in this step. It took so much time of us to research and solve problem. 
 
 ### 3.3. Authenticate problem
-We did meet an authenticate problem when trying to create instance
+We did meet an authenticate problem when trying to create instance. We cant define the reason but then we try to re-create new user. The problem has been solved
+
+### 3.3. Limited instance number
+```
+ An error occurred (VcpuLimitExceeded) when calling the RunInstances operation: You have requested more vCPU capacity than your current vCPU limit of 32 allows for the instance bucket that the specified instance type belongs to. Please visit http://aws.amazon.com/contact-us/ec2-request to request an adjustment to this limit.
+ ```
+ With this problem, we need to terminate instances
+
