@@ -74,10 +74,10 @@ reservation = reservations[0]
 instances = reservation['Instances']
 master = instances[0]
 list_slave = instances[1:]
-join_command = setup_instance('master', instances[0])
+join_command = setup_instance('master', master)
 for slave in list_slave:
     setup_instance('slave', slave, join_command)
-    
+
         
 
 
