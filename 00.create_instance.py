@@ -9,8 +9,13 @@ from dotenv import load_dotenv
 load_dotenv()
 
 session = init_aws_session()
-ec2 = boto3.resource('ec2', region_name='ap-northeast-1')
-ecs = boto3.client('ecs', region_name='ap-northeast-1')
+ec2 = boto3.resource('ec2', region_name='ap-northeast-1',
+                    aws_access_key_id=os.getenv('AWS_ACCESS_KEY'),
+                    aws_secret_access_key=os.getenv('AWS_SECRET_KEY')
+                    )
+ecs = boto3.client('ecs', region_name='ap-northeast-1',
+                    aws_access_key_id=os.getenv('AWS_ACCESS_KEY'),
+                    aws_secret_access_key=os.getenv('AWS_SECRET_KEY'))
 
 security_groups = ec2_get_security_group_list()
 sec_group = []
