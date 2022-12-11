@@ -128,7 +128,7 @@ response = elb.create_listener(
             'Type': 'forward',
         },
     ],
-    LoadBalancerArn= response['LoadBalancers']['AvailabilityZones'][0]['LoadBalancerArn']
+    LoadBalancerArn= response['LoadBalancers']['AvailabilityZones'][0]['LoadBalancerArn'],
     Port=80,
     Protocol='HTTP',
 )
