@@ -26,24 +26,6 @@ def create_instance(ec2, security_group_ids, type_ = 'NA', num_instances =1):
     else:
         return None
 
-def get_running_instances():
-    ec2_client = boto3.client('ec2', region_name='ap-northeast-1')
-    
-    reservations = ec2_client.describe_instances(Filters=[
-        {
-            "Name": "instance-state-name",
-            "Values": ["running"],
-        }
-    ]).get("Reservations")
-
-    for reservation in reservations:
-        for instance in reservation["Instances"]:
-            instance_id = instance["InstanceId"]
-            instance_type = instance["InstanceType"]
-            public_ip = instance["PublicIpAddress"]
-            private_ip = instance["PrivateIpAddress"]
-            print(f"{instance_id}, {instance_type}, {public_ip}, {private_ip}")
-    return reservations
 
 sec_group = []
 
@@ -98,7 +80,9 @@ pprint.pprint(response)
 
 # =================== [5] Create Instances
 security_group_ids = [sg['GroupId'] for sg in sec_group]
-ec2 = boto3.resource('ec2', region_name='ap-northeast-1')
+ec2 = boto3.resource('ec2', region_name='ap-northeast-1',
+                    aws_access_key_id=os.getenv('AWS_ACCESS_KEY'),
+                    aws_secret_access_key=os.getenv('AWS_SECRET_KEY'))
 
 # ins_master = create_instance(ec2, security_group_ids, type_  = 'master')
 # ins_slave = create_instance(ec2, security_group_ids, type_  = 'slave', num_instances = 4)
@@ -122,7 +106,7 @@ response = elb.register_targets(
 
 print(response)
 response = elb.describe_load_balancers()
-pprint.pprint(response['LoadBalancers']['AvailabilityZones'][0]['LoadBalancerArn'])
+pprint.pprint(response['LoadBalancers'][0]['LoadBalancerArn'])
 
 response = elb.create_listener(
     DefaultActions=[
@@ -131,7 +115,7 @@ response = elb.create_listener(
             'Type': 'forward',
         },
     ],
-    LoadBalancerArn= response['LoadBalancers']['AvailabilityZones'][0]['LoadBalancerArn'],
+    LoadBalancerArn= response['LoadBalancers'][0]['LoadBalancerArn'],
     Port=80,
     Protocol='HTTP',
 )
