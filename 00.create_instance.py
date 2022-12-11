@@ -4,6 +4,9 @@ import time
 import pprint
 import random
 from libs import *
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 session = init_aws_session()
 ec2 = boto3.resource('ec2', region_name='ap-northeast-1')
@@ -35,7 +38,7 @@ def create_instance(ec2, security_group_ids, type_='NA', num_instances=1):
             MaxCount=num_instances,
             InstanceType='t2.medium',
             # change Keyname to your KeyName
-            KeyName='awspem',
+            KeyName=os.getenv('AWS_PEM_KEY'),
             # change SecurityGroupIds to your SecurityGroupIds
             SecurityGroupIds=security_group_ids,
         )
@@ -67,7 +70,7 @@ def create_nodegroup(ec2):
 
 
 ins_master = create_instance(ec2, security_group_ids, type_='master')
-ins_slave = create_instance(ec2, security_group_ids,  type_='slave', num_instances=4)
+ins_slave = create_instance(ec2, security_group_ids,  type_='slave', num_instances=3)
 
 # ecs = create_cluster(ecs)
 # print(ecs)

@@ -1,5 +1,8 @@
+import os
+from dotenv import load_dotenv
 import pprint
 from libs import *
+load_dotenv()
 
 def create_instance(ec2, security_group_ids, type_ = 'NA', num_instances =1):
 
@@ -12,7 +15,7 @@ def create_instance(ec2, security_group_ids, type_ = 'NA', num_instances =1):
         MaxCount = num_instances,
         InstanceType = 't2.medium',
         #change Keyname to your KeyName
-        KeyName = 'new_aws',
+        KeyName = os.getenv('AWS_PEM_KEY'),
         #change SecurityGroupIds to your SecurityGroupIds
         SecurityGroupIds=security_group_ids,
         )
