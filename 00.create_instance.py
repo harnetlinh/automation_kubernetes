@@ -1,6 +1,5 @@
 import boto3
 import botocore
-import paramiko
 import time
 import pprint
 import random
@@ -74,34 +73,4 @@ ins_slave = create_instance(ec2, security_group_ids,  type_='slave', num_instanc
 # print(ecs)
 
 
-# client = paramiko.SSHClient()
-# client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-# client.load_system_host_keys()
 
-# setup master and slave instances
-
-
-def setup_instance(instance_type, client, instance):
-
-    client.connect(hostname=instance.public_ip_address,
-                   username="ubuntu", key_filename='./awspem.pem')
-    print("Connected to " + instance_type + " instance")
-    stdin, stdout, stderr = client.exec_command('sudo apt install git -y')
-    print(stdout.readlines())
-    stdin, stdout, stderr = client.exec_command(
-        'git clone https://github.com/harnetlinh/automation_kubernetes.git')
-    print(stdout.readlines())
-    stdin, stdout, stderr = client.exec_command('sudo bash')
-    if instance_type == 'master':
-        stdin, stdout, stderr = client.exec_command(
-            'chmod +x automation_kubernetes/master.sh')
-        stdin, stdout, stderr = client.exec_command(
-            'sudo ./automation_kubernetes/master.sh')
-        print(stdout.readlines())
-    else:
-        stdin, stdout, stderr = client.exec_command(
-            'chmod +x automation_kubernetes/slave.sh')
-        stdin, stdout, stderr = client.exec_command(
-            'sudo ./automation_kubernetes/slave.sh')
-        print(stdout.readlines())
-    print("Finished")

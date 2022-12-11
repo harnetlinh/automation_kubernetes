@@ -12,7 +12,7 @@ def create_instance(ec2, security_group_ids, type_ = 'NA', num_instances =1):
         MaxCount = num_instances,
         InstanceType = 't2.medium',
         #change Keyname to your KeyName
-        KeyName = 'awspem',
+        KeyName = 'new_aws',
         #change SecurityGroupIds to your SecurityGroupIds
         SecurityGroupIds=security_group_ids,
         )
