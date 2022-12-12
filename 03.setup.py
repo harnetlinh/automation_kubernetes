@@ -93,17 +93,12 @@ def setup_instance_debug(instance_type, instance, join_command=None):
         instance (object): instance object
     """
     pem_key_name = os.getenv('AWS_PEM_KEY') + '.pem'
-    # print("Connecting to " + instance_type + " instance")
-    # print('pem_key_name: ' + pem_key_name)
-    # print('public ip: ' + instance['PublicIpAddress'])
-    # print('ssh_username: ' + os.getenv('SSH_USERNAME'))
     ssh_username = os.getenv('SSH_USERNAME')
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     client.load_system_host_keys()
     client.connect(hostname=instance['PublicIpAddress'],
                    username=ssh_username, key_filename=pem_key_name)
-    # pprint("Connected to " + instance_type + " instance")
     """
     stdin, stdout, stderr = client.exec_command('sudo apt install git -y')
     test = stdout.readlines()
@@ -155,15 +150,19 @@ def setup_instance_debug(instance_type, instance, join_command=None):
             
         stdin, stdout, stderr = client.exec_command(
             'chmod +x /home/ubuntu/automation_kubernetes_test/02.slave.sh')
-        print(stdout)
-        print(stderr)
         stdin, stdout, stderr = client.exec_command(
-            'sudo /home/ubuntu/automation_kubernetes_test/02.slave.sh')
-        
-        print(stderr)
+            'sudo ~/automation_kubernetes_test/02.slave.sh')
+        if stderr.readlines() != []:
+            print(stderr.readlines())
+        else:
+            print('slave is ready')
+            print(stdout.readlines())            
         stdin, stdout, stderr = client.exec_command(join_command)
-        print(stdout)
-        print(stderr)
+        if stderr.readlines() != []:
+            print(stderr.readlines())
+        else:
+            print('slave ip ' + instance['PublicIpAddress'] + ' is joined to master')
+            print(stdout.readlines())  
         
         return "ok"
 
@@ -189,7 +188,7 @@ list_slave = instances[1:]
 join_command = setup_instance_debug('master', master)
 for slave in list_slave:
     print('setup slave')
-    setup_instance('slave', slave, join_command)
+    setup_instance_debug('slave', slave, join_command)
 print('DONE: CLUSTER IS READY, WAITING FOR WEB APP')
 
 
