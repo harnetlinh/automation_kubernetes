@@ -65,7 +65,9 @@ def setup_instance(instance_type, instance, join_command=None):
         join = get_join_command_from_master(client)
         stdin, stdout, stderr = client.exec_command(
             'sudo /home/ubuntu/automation_kubernetes_test/01.master02.sh')
-        print(stdout.readlines())
+        print(stdout)
+        print(stderr)
+        
         return join
 
     else:
@@ -74,17 +76,21 @@ def setup_instance(instance_type, instance, join_command=None):
             
         stdin, stdout, stderr = client.exec_command(
             'chmod +x /home/ubuntu/automation_kubernetes_test/02.slave.sh')
-        print(stdout)
-        print(stderr)
         stdin, stdout, stderr = client.exec_command(
-            'sudo /home/ubuntu/automation_kubernetes_test/02.slave.sh')
-        
-        print(stderr)
+            'sudo ~/automation_kubernetes_test/02.slave.sh')
+        if stderr.readlines() != []:
+            print(stderr.readlines())
+        else:
+            print('slave is ready')
+            print(stdout.readlines())            
         stdin, stdout, stderr = client.exec_command(join_command)
-        print(stdout)
-        print(stderr)
+        if stderr.readlines() != []:
+            print(stderr.readlines())
+        else:
+            print('slave ip ' + instance['PublicIpAddress'] + ' is joined to master')
+            print(stdout.readlines())  
         return "ok"
-  
+
 def get_join_command_from_master(client):
     """get join command from master instance"""
 
