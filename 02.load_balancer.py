@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 import pprint
 from libs import *
+import time
 load_dotenv()
 
 def create_instance(ec2, security_group_ids, type_ = 'NA', num_instances =1):
@@ -86,7 +87,7 @@ ec2 = boto3.resource('ec2', region_name='ap-northeast-1',
 
 ins_master = create_instance(ec2, security_group_ids, type_  = 'master')
 ins_slave = create_instance(ec2, security_group_ids, type_  = 'slave', num_instances = 3)
-
+time.sleep(30)
 reserve = get_running_instances()
 
 # =================== [6] Create Target list

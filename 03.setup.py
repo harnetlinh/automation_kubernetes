@@ -3,7 +3,7 @@ import os
 import paramiko
 from libs import *
 from dotenv import load_dotenv
-import ppprint
+import pprint
 
 load_dotenv()
 # setup master and slave instances
@@ -15,22 +15,22 @@ def setup_instance(instance_type, instance, join_command=None):
         instance (object): instance object
     """
     pem_key_name = os.getenv('AWS_PEM_KEY') + '.pem'
-    pprint("Connecting to " + instance_type + " instance")
-    pprint('pem_key_name: ' + pem_key_name)
-    pprint('public ip: ' + instance['PublicIpAddress'])
-    pprint('ssh_username: ' + os.getenv('SSH_USERNAME'))
+    # print("Connecting to " + instance_type + " instance")
+    # print('pem_key_name: ' + pem_key_name)
+    # print('public ip: ' + instance['PublicIpAddress'])
+    # print('ssh_username: ' + os.getenv('SSH_USERNAME'))
     ssh_username = os.getenv('SSH_USERNAME')
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     client.load_system_host_keys()
     client.connect(hostname=instance['PublicIpAddress'],
                    username=ssh_username, key_filename=pem_key_name)
-    pprint("Connected to " + instance_type + " instance")
+    # pprint("Connected to " + instance_type + " instance")
     stdin, stdout, stderr = client.exec_command('sudo apt install git -y')
-    pprint(stdout.readlines())
+    print(stdout.readlines())
     stdin, stdout, stderr = client.exec_command(
         'git clone https://github.com/harnetlinh/automation_kubernetes.git')
-    pprint(stdout.readlines())
+    print(stdout.readlines())
     stdin, stdout, stderr = client.exec_command('sudo bash')
     if instance_type == 'master':
         stdin, stdout, stderr = client.exec_command(
@@ -43,7 +43,7 @@ def setup_instance(instance_type, instance, join_command=None):
         join = get_join_command_from_master(client)
         stdin, stdout, stderr = client.exec_command(
             'sudo ./automation_kubernetes/01.master-02.sh')
-        pprint(stdout.readlines())
+        print(stdout.readlines())
         return join
 
     else:
@@ -55,17 +55,20 @@ def setup_instance(instance_type, instance, join_command=None):
         stdin, stdout, stderr = client.exec_command(
             'sudo ./automation_kubernetes/02.slave.sh')
         stdin, stdout, stderr = client.exec_command(join_command)
-        pprint(stdout.readlines())
+        print(stdout.readlines())
         return "ok";
         
-    pprint("Finished")
+    print("Finished")
 
 def get_join_command_from_master(client):
     """get join command from master instance"""
 
     stdin, stdout, stderr = client.exec_command('sudo kubeadm token create --print-join-command')
+    print('get join command from master instance')
+    print(stderr.readlines())
+    print(stdout.readlines())
     join_command = stdout.readlines()[0]
-    pprint(join_command)
+    print(join_command)
     return join_command
 
 # get all running instances with function in libs and setup master and slave instances
