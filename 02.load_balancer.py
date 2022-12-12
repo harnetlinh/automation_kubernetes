@@ -84,8 +84,8 @@ ec2 = boto3.resource('ec2', region_name='ap-northeast-1',
                     aws_access_key_id=os.getenv('AWS_ACCESS_KEY'),
                     aws_secret_access_key=os.getenv('AWS_SECRET_KEY'))
 
-# ins_master = create_instance(ec2, security_group_ids, type_  = 'master')
-# ins_slave = create_instance(ec2, security_group_ids, type_  = 'slave', num_instances = 4)
+ins_master = create_instance(ec2, security_group_ids, type_  = 'master')
+ins_slave = create_instance(ec2, security_group_ids, type_  = 'slave', num_instances = 3)
 
 reserve = get_running_instances()
 
