@@ -14,7 +14,14 @@ machines allocated on Amazon AWS.
 ## 2. Installation and Usage
 - For running, you must create aws account and create a pem key for paramiko ssh access
 - [user], [access key ID] and [Secret access key] are required for boto3
-- To run the project, please run file by the number indexed
+- You can find all the command for setting up the VM in this [Repository](https://github.com/harnetlinh/automation_kubernetes_test.git)
+- To run the project, please follow this instruction:
+    1. Install necessary libaries by running ```pip install -r requirements.txt```
+    2. To create security group, run the file ```01.security_group.py```
+    3. To create instances and load balancer, run the file ```02.security_group.py```
+    4. To setup master and slave, run the file ```03.setup.py```
+    5. To deploy a web app docker image, run the file ```04.testwebapp.py```
+
 
 
 ## 3. Problems
@@ -38,4 +45,5 @@ We did meet an authenticate problem when trying to create instance. We cant defi
  An error occurred (VcpuLimitExceeded) when calling the RunInstances operation: You have requested more vCPU capacity than your current vCPU limit of 32 allows for the instance bucket that the specified instance type belongs to. Please visit http://aws.amazon.com/contact-us/ec2-request to request an adjustment to this limit.
  ```
  With this problem, we need to terminate instances
+ 
 
