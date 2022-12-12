@@ -1,4 +1,4 @@
-#!/bin/bash#
+#!/bin/bash
 # bash file to install kubernetes master node
 apt-get update -y
 hostnamectl set-hostname master

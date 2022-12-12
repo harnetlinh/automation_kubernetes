@@ -28,7 +28,9 @@ def setup_instance(instance_type, instance, join_command=None):
                    username=ssh_username, key_filename=pem_key_name)
     # pprint("Connected to " + instance_type + " instance")
     stdin, stdout, stderr = client.exec_command('sudo apt install git -y')
-    print(stdout.readlines())
+    test = stdout.readlines()
+    print('sudo apt install git -y')
+
     stdin, stdout, stderr = client.exec_command(
         'rm -rf automation_kubernetes_test')
     print(stdout.readlines())
@@ -85,7 +87,8 @@ def get_join_command_from_master(client):
     print('get join command from master instance')
     print(stderr.readlines())
     print(stdout.readlines())
-    join_command = stdout.readlines()[0]
+    join_command = stdout.readlines()
+    join_command = join_command[0].replace('\n', '')
     print(join_command)
     return join_command
 
