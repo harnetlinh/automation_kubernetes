@@ -30,28 +30,37 @@ def setup_instance(instance_type, instance, join_command=None):
     stdin, stdout, stderr = client.exec_command('sudo apt install git -y')
     print(stdout.readlines())
     stdin, stdout, stderr = client.exec_command(
-        'rm -rf automation_kubernetes')
+        'rm -rf automation_kubernetes_test')
     print(stdout.readlines())
     stdin, stdout, stderr = client.exec_command(
-        'git clone https://github.com/harnetlinh/automation_kubernetes.git')
-    time.sleep(50);
+        'git clone https://github.com/harnetlinh/automation_kubernetes_test.git')
+    # time.sleep(50);
     print(stdout.readlines())
     print(stderr.readlines())
+    stdin, stdout, stderr = client.exec_command('cd automation_kubernetes_test/')
+    print(stdout.readlines())
+    print(stderr.readlines())
+    stdin, stdout, stderr = client.exec_command('ls')
 
+    print(stdout.readlines())
     stdin, stdout, stderr = client.exec_command('sudo bash')
     if instance_type == 'master':
         stdin, stdout, stderr = client.exec_command(
-            'chmod +x automation_kubernetes/01.master-01.sh')
+            'chmod +x /home/ubuntu/automation_kubernetes_test/01.master01.sh')
+        print('chmod +x /home/ubuntu/automation_kubernetes_test/01.master01.sh')
+        print(stdout.readlines())
         
         stdin, stdout, stderr = client.exec_command(
-            'chmod +x automation_kubernetes/01.master-02.sh')
+            'chmod +x /home/ubuntu/automation_kubernetes_test/01.master02.sh')
+        print('check folder')
+        print(stdout.readlines())
         stdin, stdout, stderr = client.exec_command(
-            'sudo ./automation_kubernetes/01.master-01.sh')
+            'sudo ~/automation_kubernetes_test/01.master01.sh')
         print(stdout.readlines())
         print(stderr.readlines())
         join = get_join_command_from_master(client)
         stdin, stdout, stderr = client.exec_command(
-            'sudo ./automation_kubernetes/01.master-02.sh')
+            'sudo /home/ubuntu/automation_kubernetes_test/01.master02.sh')
         print(stdout.readlines())
         return join
 
@@ -60,9 +69,9 @@ def setup_instance(instance_type, instance, join_command=None):
             raise Exception('join command is None')
             
         stdin, stdout, stderr = client.exec_command(
-            'chmod +x automation_kubernetes/02.slave.sh')
+            'chmod +x /home/ubuntu/automation_kubernetes_test/02.slave.sh')
         stdin, stdout, stderr = client.exec_command(
-            'sudo ./automation_kubernetes/02.slave.sh')
+            'sudo /home/ubuntu/automation_kubernetes_test/02.slave.sh')
         stdin, stdout, stderr = client.exec_command(join_command)
         print(stdout.readlines())
         return "ok";
