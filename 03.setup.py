@@ -88,6 +88,7 @@ def get_join_command_from_master(client):
     print(stderr.readlines())
     print(stdout.readlines())
     join_command = stdout.readlines()
+    print(join_command)
     join_command = join_command[0].replace('\n', '')
     print(join_command)
     return join_command
