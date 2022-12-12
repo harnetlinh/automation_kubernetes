@@ -4,6 +4,7 @@ import paramiko
 from libs import *
 from dotenv import load_dotenv
 import pprint
+import time
 
 load_dotenv()
 # setup master and slave instances
@@ -29,8 +30,14 @@ def setup_instance(instance_type, instance, join_command=None):
     stdin, stdout, stderr = client.exec_command('sudo apt install git -y')
     print(stdout.readlines())
     stdin, stdout, stderr = client.exec_command(
-        'git clone https://github.com/harnetlinh/automation_kubernetes.git')
+        'rm -rf automation_kubernetes')
     print(stdout.readlines())
+    stdin, stdout, stderr = client.exec_command(
+        'git clone https://github.com/harnetlinh/automation_kubernetes.git')
+    time.sleep(50);
+    print(stdout.readlines())
+    print(stderr.readlines())
+
     stdin, stdout, stderr = client.exec_command('sudo bash')
     if instance_type == 'master':
         stdin, stdout, stderr = client.exec_command(
@@ -40,6 +47,8 @@ def setup_instance(instance_type, instance, join_command=None):
             'chmod +x automation_kubernetes/01.master-02.sh')
         stdin, stdout, stderr = client.exec_command(
             'sudo ./automation_kubernetes/01.master-01.sh')
+        print(stdout.readlines())
+        print(stderr.readlines())
         join = get_join_command_from_master(client)
         stdin, stdout, stderr = client.exec_command(
             'sudo ./automation_kubernetes/01.master-02.sh')
